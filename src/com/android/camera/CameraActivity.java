@@ -298,8 +298,6 @@ public class CameraActivity extends QuickActivity
 
     // Keep track of powershutter state
     public boolean mPowerShutter;
-    // Keep track of max brightness state
-    public boolean mMaxBrightness;
 
     @Override
     public CameraAppUI getCameraAppUI() {
@@ -578,8 +576,6 @@ public class CameraActivity extends QuickActivity
     public void onSettingChanged(SettingsManager settingsManager, String key) {
         if (key.equals(Keys.KEY_POWER_SHUTTER)) {
             initPowerShutter();
-        } else if (key.equals(Keys.KEY_MAX_BRIGHTNESS)) {
-            initMaxBrightness();
         }
     }
 
@@ -1519,7 +1515,6 @@ public class CameraActivity extends QuickActivity
         mDevicePlugin.onCreate(mAppContext);
 
         initPowerShutter();
-        initMaxBrightness();
 
         AppUpgrader appUpgrader = new AppUpgrader(this);
         appUpgrader.upgrade(mSettingsManager);
@@ -2244,20 +2239,6 @@ public class CameraActivity extends QuickActivity
             getWindow().clearPrivateFlags(
                     WindowManager.LayoutParams.PRIVATE_FLAG_PREVENT_POWER_KEY);
         }
-    }
-
-    protected void initMaxBrightness() {
-        Window win = getWindow();
-        WindowManager.LayoutParams params = win.getAttributes();
-
-        mMaxBrightness = Keys.isMaxBrightnessOn(mSettingsManager);
-        if (mMaxBrightness) {
-            params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL;
-        } else {
-            params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
-        }
-
-        win.setAttributes(params);
     }
 
     @Override
